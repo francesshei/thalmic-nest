@@ -13,11 +13,9 @@ neuron = nest.Create("aeif_cond_exp")
 # SET VALUES
 # To set the parameters, directly specify a value:
 # neuron.I_e = 376.0 or neuron.set({"I_e": 376.0, "C_m":250.0})
+
 df = pd.read_excel('params.xlsx')
 params = {p: v for p,v in zip(df['parameter'].values, df['value'].values)}
-#neuron.set({"I_e": 1.0, "C_m": 1000., "g_L": 50., "E_L": -60., 
-#            "Delta_T": 2.5, "V_th": -50., "t_ref": 2.5, "tau_w": 600.,
-#            "a": 400.0, "b": 20.0})
 neuron.set(params)
 dc_current = nest.Create("dc_generator")
 dc_current.set({"start":1200.0, "stop":1600.0, "amplitude": -1250.})
