@@ -1,4 +1,3 @@
-
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import nest
@@ -7,8 +6,14 @@ import os
 from pynestml.frontend.pynestml_frontend import generate_nest_target
 
 NEST_SIMULATOR_INSTALL_LOCATION = nest.ll_api.sli_func("statusdict/prefix ::")
+generate_nest_target(input_path="/Users/ju/Desktop/neuro/thalamic-nest/nestml/models/active_dendrite.nestml",
+                     target_path="/tmp/nestml-active-dend-target",
+                     module_name="nestml_active_dend_module",
+                     suffix="_nestml",
+                     logging_level="ERROR",  # try "INFO" for more debug information
+                     codegen_opts={"nest_path": NEST_SIMULATOR_INSTALL_LOCATION})
 
-nest.Install("nestmlmodule")
+nest.Install("nestml_active_dend_module")
 
 def evaluate_neuron(neuron_name, neuron_parms=None, t_sim=100., plot=True):
     """
@@ -93,7 +98,7 @@ def evaluate_neuron(neuron_name, neuron_parms=None, t_sim=100., plot=True):
             if not _ax == ax[-1]: _ax.set_xticklabels([])
             for _loc in ['top', 'right', 'bottom', 'left']: _ax.spines[_loc].set_visible(False) # hide axis outline
         for o in fig.findobj(): o.set_clip_on(False)  # disable clipping
-        fig.show()
+        plt.show()
 
         return n_post_spikes
 
