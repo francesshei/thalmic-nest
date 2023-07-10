@@ -1,0 +1,24 @@
+neuron ornstein_uhlenbeck_noise:
+
+    parameters:
+        mean_noise real = 500    # mean of the noise
+        sigma_noise real = 50    # std. dev. of the noise
+        tau_noise ms = 20 ms     # time constant of the noise
+    end
+
+    internals:
+        A_noise real = sigma_noise * ((1 - exp(-2 * resolution() / tau_noise)))**.5
+    end
+
+    state:
+        U real = mean_noise   # set the initial condition
+    end
+
+    update:
+        U = mean_noise \
+        + (U - mean_noise) * exp(-resolution() / tau_noise) \
+        + A_noise * random_normal(0, 1)
+    end
+
+end
+
