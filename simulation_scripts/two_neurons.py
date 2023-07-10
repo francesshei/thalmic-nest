@@ -58,7 +58,7 @@ if GENERATE_MODULE:
     # Generate the neccesary code for NEST and install the module
     NEST_SIMULATOR_INSTALL_LOCATION = nest.ll_api.sli_func("statusdict/prefix ::")
     generate_nest_target(
-        input_path="nestml/models/thalamic_adex.nestml",
+        input_path="../nestml/models/thalamic_adex.nestml",
         target_path="/tmp/thalamic_adex",
         module_name="thalamic_adex_module",
         logging_level="ERROR",
