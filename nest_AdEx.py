@@ -2,24 +2,30 @@ import nest
 import matplotlib.pyplot as plt
 import pandas as pd
 
+TO_BE_SIMULATED = "TC"
+
+plt.style.use("dark_background")
+
+# pylint: disable=no-member
+nest.Install("thalamic_adex_module")
 nest.ResetKernel()
 
 # Create the AdEX model
-neuron = nest.Create("aeif_cond_exp")
+neuron = nest.Create("aeif_cond")
 
 # INSPECT VALUES
-# To access the model parameters, use: neuron.get() 
+# To access the model parameters, use: neuron.get()
 # e.g. neuron.get("I_e") or "neuron.I_e"
 # SET VALUES
 # To set the parameters, directly specify a value:
 # neuron.I_e = 376.0 or neuron.set({"I_e": 376.0, "C_m":250.0})
 
-df = pd.read_excel('params.xlsx')
-params = {p: v for p,v in zip(df['parameter'].values, df['value'].values)}
+df = pd.read_excel("params.xlsx", sheet_name=TO_BE_SIMULATED)
+params = {p: v for p, v in zip(df["parameter"].values, df["value"].values)}
 neuron.set(params)
 dc_current = nest.Create("dc_generator")
-dc_current.set({"start":1200.0, "stop":1600.0, "amplitude": -1250.})
-
+# Change the sign of the amplitude to simulate an hyperpolarizing input
+dc_current.set({"start": 1200.0, "stop": 1600.0, "amplitude": 1000.0})
 # Create the recording devices
 multimeter = nest.Create("multimeter")
 multimeter.set(record_from=["V_m"])
@@ -43,6 +49,6 @@ ts = dmm["events"]["times"]
 # Plot the result
 fig, ax = plt.subplots()
 ax.plot(ts, Vms)
-ax.set_xlim(1000,2500)
-ax.set_ylim(-100,0)
+ax.set_xlim(1000, 2500)
+ax.set_ylim(-100, 0)
 plt.show()
