@@ -14,7 +14,7 @@ if GENERATE_MODULE:
     # Generate the neccesary code for NEST and install the module
     NEST_SIMULATOR_INSTALL_LOCATION = nest.ll_api.sli_func("statusdict/prefix ::")
     generate_nest_target(
-        input_path="../nestml/models/thalamic_adex.nestml",
+        input_path="/home/furkan1/thalamic-nest/mo/models/thalamic_adex.nestml",
         target_path="/tmp/thalamic_adex",
         module_name="thalamic_adex_module",
         logging_level="ERROR",
@@ -36,7 +36,8 @@ neuron = nest.Create("aeif_cond")
 # To set the parameters, directly specify a value:
 # neuron.I_e = 376.0 or neuron.set({"I_e": 376.0, "C_m":250.0})
 
-df = pd.read_excel("params.xlsx", sheet_name=TO_BE_SIMULATED)
+df = pd.read_excel("/home/furkan1/thalamic-nest/simulation_scripts/params.xlsx", sheet_name=TO_BE_SIMULATED)
+
 params = {p: v for p, v in zip(df["parameter"].values, df["value"].values)}
 neuron.set(params)
 dc_current = nest.Create("dc_generator")

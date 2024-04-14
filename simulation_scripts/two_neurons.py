@@ -74,11 +74,12 @@ nest.SetKernelStatus({"resolution": 0.1})
 # Create the AdEX model
 neurons = nest.Create("aeif_cond", n=2)
 
-tc_df = pd.read_excel("params.xlsx", sheet_name="TC")
+tc_df = pd.read_excel("/home/furkan1/thalamic-nest/simulation_scripts/params.xlsx", sheet_name="TC")
+
 tc_params = {p: v for p, v in zip(tc_df["parameter"].values, tc_df["value"].values)}
 neurons[0].set(tc_params)
 
-re_df = pd.read_excel("params.xlsx", sheet_name="RE")
+re_df = pd.read_excel("/home/furkan1/thalamic-nest/simulation_scripts/params.xlsx", sheet_name="RE")
 re_params = {p: v for p, v in zip(re_df["parameter"].values, re_df["value"].values)}
 neurons[1].set(re_params)
 
@@ -96,11 +97,11 @@ spikerecorder = nest.Create("spike_recorder")
 
 # Connect the nodes
 # TC - RE
-nest.Connect(neurons[0], neurons[1], syn_spec={"weight": 7930, "delay": 1.0})
+nest.Connect(neurons[0], neurons[1], 'one_to_one', syn_spec={"weight": 7930, "delay": 1.0})
 # RE - TC
-nest.Connect(neurons[1], neurons[0], syn_spec={"weight": -150000.0, "delay": 1.0})
+nest.Connect(neurons[1], neurons[0], 'one_to_one', syn_spec={"weight": -150000.0, "delay": 1.0})
 # Ext - TC
-nest.Connect(spike_gen, neurons[0], syn_spec={"weight": 45.0})
+nest.Connect(spike_gen, neurons[0], 'one_to_one', syn_spec={"weight": 100.0})
 
 
 nest.Connect(tc_multimeter, neurons[0])
