@@ -8,7 +8,7 @@ TO_BE_SIMULATED = "TC"
 plt.style.use("dark_background")
 
 # pylint: disable=no-member
-GENERATE_MODULE = False
+GENERATE_MODULE = True
 
 if GENERATE_MODULE:
     # Generate the neccesary code for NEST and install the module
@@ -27,7 +27,7 @@ nest.Install("thalamic_adex_module")
 nest.ResetKernel()
 
 # Create the AdEX model
-neuron = nest.Create("aeif_cond")
+neuron = nest.Create("aeif_cond_adex")
 
 # INSPECT VALUES
 # To access the model parameters, use: neuron.get()

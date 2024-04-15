@@ -1,5 +1,5 @@
 
-neuron aeif_cond_adex:
+neuron aeif_cond_adex_copy:
 
     state:
         V_m mV = E_L   # Membrane potential
@@ -8,8 +8,8 @@ neuron aeif_cond_adex:
     
     equations:
         inline V_bounded mV = min(V_m, V_peak)    # prevent exponential divergence
-        kernel g_exc = (1000 / (tau_decay_exc - tau_rise_exc)) * (exp(-t / tau_decay_exc) - exp(-t / tau_rise_exc)) * ms
-        kernel g_inh = (1000 / (tau_decay_inh - tau_rise_inh)) * (exp(-t / tau_decay_inh) - exp(-t / tau_rise_inh)) * ms
+        kernel g_exc = (1 / (tau_decay_exc - tau_rise_exc)) * (exp(-t / tau_decay_exc) - exp(-t / tau_rise_exc)) * s
+        kernel g_inh = (1 / (tau_decay_inh - tau_rise_inh)) * (exp(-t / tau_decay_inh) - exp(-t / tau_rise_inh)) * s
 
         # Add inlines to simplify the equation definition of V_m
         inline exp_arg real = (V_bounded - V_th) / Delta_T
